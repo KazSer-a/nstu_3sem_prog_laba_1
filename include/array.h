@@ -21,5 +21,4 @@ bool removeAt(Array* arr, int index);
 int lengthArray(const Array* arr);
 void printArray(const Array* arr);
 void freeArray(Array* arr);
-
-void handleArray(Command command, json& db, const std::string& name, std::stringstream& ss);
+void handleArray(Command command, Database& db, const std::string& name, std::stringstream& ss);
