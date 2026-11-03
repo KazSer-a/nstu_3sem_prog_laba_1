@@ -85,7 +85,7 @@ cd go
 ## Тесты
 
 ```bash
-./tests/run.sh
+bash tests/run.sh
 ```
 
 ## Очистка
