@@ -1,10 +1,9 @@
 #pragma once
 
+#include "database.h"
+
 #include <sstream>
 #include <string>
-#include <nlohmann/json.hpp>
-
-using json = nlohmann::json;
 
 enum class Command
 {
