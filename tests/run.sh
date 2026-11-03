@@ -30,6 +30,10 @@ check() {
     fi
 }
 
+check "$(run_cpp 'TFULL empty')" '-> TRUE'
+run_cpp 'TINSERT single 5' >/dev/null
+check "$(run_cpp 'TFULL single')" '-> TRUE'
+
 run_cpp 'MPUSH arr 10' >/dev/null
 run_cpp 'MINSERT arr 0 5' >/dev/null
 check "$(run_cpp 'MGET arr 1')" '-> 10'
