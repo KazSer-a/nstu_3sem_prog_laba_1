@@ -4,55 +4,55 @@
 
 enum class Command
 {
-    MPUSH,
-    MINSERT,
-    MGET,
-    MSET,
-    MDEL,
-    MLEN,
-    MPRINT,
+    MPUSH,      // Добавить в конец массива
+    MINSERT,    // Вставить по индексу
+    MGET,       // Получить по индексу
+    MSET,       // Заменить по индексу
+    MDEL,       // Удалить по индексу
+    MLEN,       // Длина массива
+    MPRINT,     // Вывести массив
 
-    FPUSHH,
-    FPUSHT,
-    FPUSHA,
-    FPUSHB,
-    FDELH,
-    FDELT,
-    FDELA,
-    FDELB,
-    FDEL,
-    FFIND,
-    FPRINT,
-    FPRINTR,
+    FPUSHH,     // Добавить в голову списка
+    FPUSHT,     // Добавить в хвост списка
+    FPUSHA,     // Добавить после элемента
+    FPUSHB,     // Добавить перед элементом
+    FDELH,      // Удалить голову списка
+    FDELT,      // Удалить хвост списка
+    FDELA,      // Удалить после элемента
+    FDELB,      // Удалить перед элементом
+    FDEL,       // Удалить по значению
+    FFIND,      // Найти значение
+    FPRINT,     // Вывести список
+    FPRINTR,    // Вывести список с конца
 
-    LPUSHH,
-    LPUSHT,
-    LPUSHA,
-    LPUSHB,
-    LDELH,
-    LDELT,
-    LDELA,
-    LDELB,
-    LDEL,
-    LFIND,
-    LPRINT,
-    LPRINTR,
+    LPUSHH,     // Добавить в голову списка
+    LPUSHT,     // Добавить в хвост списка
+    LPUSHA,     // Добавить после элемента
+    LPUSHB,     // Добавить перед элементом
+    LDELH,      // Удалить голову списка
+    LDELT,      // Удалить хвост списка
+    LDELA,      // Удалить после элемента
+    LDELB,      // Удалить перед элементом
+    LDEL,       // Удалить по значению
+    LFIND,      // Найти значение
+    LPRINT,     // Вывести список
+    LPRINTR,    // Вывести список с конца
 
-    SPUSH,
-    SPOP,
-    SPRINT,
+    SPUSH,      // Положить элемент в стек
+    SPOP,       // Снять верхний элемент
+    SPRINT,     // Вывести стек
 
-    QPUSH,
-    QPOP,
-    QPRINT,
+    QPUSH,      // Добавить в очередь
+    QPOP,       // Забрать первый элемент
+    QPRINT,     // Вывести очередь
 
-    TINSERT,
-    TFIND,
-    TFULL,
-    TPRINT,
+    TINSERT,    // Добавить узел в дерево
+    TFIND,      // Найти значение в дереве
+    TFULL,      // Проверить Full Binary Tree
+    TPRINT,     // Вывести обходы дерева
 
-    PRINT,
-    UNKNOWN
+    PRINT,      // Вывести структуру по имени
+    UNKNOWN     // Неизвестная команда
 };
 
 Command toCommand(const std::string& text);
