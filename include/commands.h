@@ -1,6 +1,10 @@
 #pragma once
 
+#include <sstream>
 #include <string>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 enum class Command
 {
