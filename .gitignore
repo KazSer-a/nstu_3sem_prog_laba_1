@@ -1,3 +1,6 @@
 dbms
 dbms.exe
 *.o
+go/dbms_go
+go/dbms_go.exe
+go/*.test
