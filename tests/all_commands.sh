@@ -15,13 +15,13 @@ make
 
 cpp() {
     echo
-    echo "\$ ./dbms --file data.json --query \"$1\""
+    echo "\$ ./dbms --file $TMP --query \"$1\""
     ./dbms --file "$TMP" --query "$1"
 }
 
 golang() {
     echo
-    echo "\$ ./go/dbms_go --file data.json --query \"$1\""
+    echo "\$ ./go/dbms_go --file $TMP --query \"$1\""
     ./go/dbms_go --file "$TMP" --query "$1"
 }
 
