@@ -86,6 +86,13 @@ cd go
 
 ```bash
 bash tests/run.sh
+bash tests/all_commands.sh
+```
+
+Полный последовательный запуск всех команд C++ и Go:
+
+```bash
+bash tests/all_commands.sh
 ```
 
 ## Очистка
