@@ -1,16 +1,31 @@
 #include "database.h"
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <json-c/json.h>
+#include <utility>
 
 bool loadDatabase(const std::string& fileName, Database& db)
 {
-    std::ifstream in(fileName);
-    if (!in.is_open())
+    std::error_code fileError;
+    bool fileExists = std::filesystem::exists(fileName, fileError);
+    if (fileError)
+    {
+        std::cout << "не удалось проверить файл\n";
+        return false;
+    }
+    if (!fileExists)
     {
         db.clear();
         return true;
+    }
+
+    std::ifstream in(fileName);
+    if (!in.is_open())
+    {
+        std::cout << "не удалось открыть файл\n";
+        return false;
     }
     if (in.peek() == EOF)
     {
