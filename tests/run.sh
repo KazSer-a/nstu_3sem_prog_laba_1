@@ -77,6 +77,16 @@ run_cpp 'FDELH flist_cpp' >/dev/null
 check "$(run_cpp 'FPRINT flist_cpp')" 'nullptr' "удаление головы"
 check "$(run_cpp 'FDELH flist_cpp')" 'список пуст' "удаление из пустого списка"
 check "$(run_cpp 'FDELT flist_cpp')" 'список пуст' "удаление хвоста пустого списка"
+run_cpp 'FPUSHH flist_edges_cpp a' >/dev/null
+run_cpp 'FPUSHB flist_edges_cpp a before' >/dev/null
+run_cpp 'FPUSHA flist_edges_cpp a after' >/dev/null
+check "$(run_cpp 'FPRINT flist_edges_cpp')" 'before -> a -> after -> nullptr' "вставка перед головой и после хвоста"
+run_cpp 'FDELH flist_edges_cpp' >/dev/null
+check "$(run_cpp 'FPRINT flist_edges_cpp')" 'a -> after -> nullptr' "удаление головы после граничных вставок"
+run_cpp 'FDELT flist_edges_cpp' >/dev/null
+check "$(run_cpp 'FPRINT flist_edges_cpp')" 'a -> nullptr' "удаление хвоста после граничных вставок"
+run_cpp 'FDEL flist_edges_cpp a' >/dev/null
+check "$(run_cpp 'FPRINT flist_edges_cpp')" 'nullptr' "удаление последнего узла"
 
 echo "Проверка односвязного списка (Go)"
 run_go 'FPUSHH flist_go a' >/dev/null
@@ -102,6 +112,16 @@ run_go 'FDELH flist_go' >/dev/null
 check "$(run_go 'FPRINT flist_go')" 'nil' "удаление головы Go"
 check "$(run_go 'FDELH flist_go')" 'список пуст' "удаление из пустого списка Go"
 check "$(run_go 'FDELT flist_go')" 'список пуст' "удаление хвоста пустого списка Go"
+run_go 'FPUSHH flist_edges_go a' >/dev/null
+run_go 'FPUSHB flist_edges_go a before' >/dev/null
+run_go 'FPUSHA flist_edges_go a after' >/dev/null
+check "$(run_go 'FPRINT flist_edges_go')" 'before -> a -> after -> nil' "вставка перед головой и после хвоста Go"
+run_go 'FDELH flist_edges_go' >/dev/null
+check "$(run_go 'FPRINT flist_edges_go')" 'a -> after -> nil' "удаление головы после граничных вставок Go"
+run_go 'FDELT flist_edges_go' >/dev/null
+check "$(run_go 'FPRINT flist_edges_go')" 'a -> nil' "удаление хвоста после граничных вставок Go"
+run_go 'FDEL flist_edges_go a' >/dev/null
+check "$(run_go 'FPRINT flist_edges_go')" 'nil' "удаление последнего узла Go"
 
 echo "Проверка двусвязного списка (C++)"
 run_cpp 'LPUSHH dlist_cpp a' >/dev/null
@@ -131,6 +151,11 @@ run_cpp 'LDELH dlist_cpp' >/dev/null
 check "$(run_cpp 'LPRINT dlist_cpp')" 'nullptr' "удаление головы"
 check "$(run_cpp 'LDELH dlist_cpp')" 'список пуст' "удаление из пустого списка"
 check "$(run_cpp 'LDELT dlist_cpp')" 'список пуст' "удаление хвоста пустого списка"
+run_cpp 'LPUSHH dlist_edges_cpp a' >/dev/null
+run_cpp 'LPUSHB dlist_edges_cpp a before' >/dev/null
+run_cpp 'LPUSHA dlist_edges_cpp a after' >/dev/null
+check "$(run_cpp 'LPRINT dlist_edges_cpp')" 'before <-> a <-> after <-> nullptr' "вставка перед головой и после хвоста"
+check "$(run_cpp 'LPRINTR dlist_edges_cpp')" 'after <-> a <-> before <-> nullptr' "обратные ссылки после граничных вставок"
 
 echo "Проверка двусвязного списка (Go)"
 run_go 'LPUSHH dlist_go a' >/dev/null
@@ -157,6 +182,11 @@ run_go 'LDELH dlist_go' >/dev/null
 check "$(run_go 'LPRINT dlist_go')" 'nil' "удаление головы Go"
 check "$(run_go 'LDELT dlist_go')" 'список пуст' "удаление из пустого списка Go"
 check "$(run_go 'LDELH dlist_go')" 'список пуст' "удаление головы пустого списка Go"
+run_go 'LPUSHH dlist_edges_go a' >/dev/null
+run_go 'LPUSHB dlist_edges_go a before' >/dev/null
+run_go 'LPUSHA dlist_edges_go a after' >/dev/null
+check "$(run_go 'LPRINT dlist_edges_go')" 'before <-> a <-> after <-> nil' "вставка перед головой и после хвоста Go"
+check "$(run_go 'LPRINTR dlist_edges_go')" 'after <-> a <-> before <-> nil' "обратные ссылки после граничных вставок Go"
 
 echo "Проверка стека (C++)"
 run_cpp 'SPUSH stack_cpp first' >/dev/null
@@ -173,6 +203,8 @@ check "$(run_cpp 'QPRINT queue_cpp')" 'first -> second -> nullptr' "порядо
 check "$(run_cpp 'QPOP queue_cpp')" '-> first' "извлечение первого элемента"
 check "$(run_cpp 'QPOP queue_cpp')" '-> second' "извлечение следующего элемента"
 check "$(run_cpp 'QPOP queue_cpp')" '-> очередь пуста' "извлечение из пустой очереди"
+run_cpp 'QPUSH queue_cpp after_empty' >/dev/null
+check "$(run_cpp 'QPOP queue_cpp')" '-> after_empty' "повторное использование пустой очереди"
 
 echo "Проверка стека и очереди (Go)"
 run_go 'SPUSH stack_go first' >/dev/null
@@ -187,6 +219,8 @@ check "$(run_go 'QPRINT queue_go')" 'first -> second -> nil' "порядок о�
 check "$(run_go 'QPOP queue_go')" '-> first' "извлечение первого элемента очереди Go"
 check "$(run_go 'QPOP queue_go')" '-> second' "извлечение следующего элемента очереди Go"
 check "$(run_go 'QPOP queue_go')" '-> очередь пуста' "извлечение из пустой очереди Go"
+run_go 'QPUSH queue_go after_empty' >/dev/null
+check "$(run_go 'QPOP queue_go')" '-> after_empty' "повторное использование пустой очереди Go"
 
 echo "Проверка бинарного дерева поиска и Full Binary Tree"
 check "$(run_cpp 'TFULL empty_tree')" '-> TRUE' "пустое дерево"
