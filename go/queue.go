@@ -12,7 +12,7 @@ type Queue struct {
     tail *QNode
 }
 
-func (queue *Queue) push(value string) {
+func (queue *Queue) enqueue(value string) {
     node := &QNode{value: value}
     if queue.tail != nil {
         queue.tail.next = node
@@ -22,7 +22,7 @@ func (queue *Queue) push(value string) {
     queue.tail = node
 }
 
-func (queue *Queue) pop() (string, bool) {
+func (queue *Queue) dequeue() (string, bool) {
     if queue.head == nil {
         return "", false
     }
@@ -48,17 +48,17 @@ func handleQueue(command string, db Database, name string, args []string) {
     }
     var queue Queue
     for _, value := range loadItems(db, name) {
-        queue.push(value)
+        queue.enqueue(value)
     }
 
     switch command {
     case "QPUSH":
         if need(args, 1) {
-            queue.push(args[0])
+            queue.enqueue(args[0])
             fmt.Println("->", args[0])
         }
     case "QPOP":
-        if value, ok := queue.pop(); ok {
+        if value, ok := queue.dequeue(); ok {
             fmt.Println("->", value)
         } else {
             fmt.Println("-> очередь пуста")
