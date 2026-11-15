@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-void push(Queue* queue, const std::string& value)
+void enqueue(Queue* queue, const std::string& value)
 {
     QNode* node = new QNode{value, nullptr};
     if (queue->tail != nullptr) queue->tail->next = node;
@@ -11,7 +11,7 @@ void push(Queue* queue, const std::string& value)
     queue->tail = node;
 }
 
-bool pop(Queue* queue, std::string& value)
+bool dequeue(Queue* queue, std::string& value)
 {
     if (queue->head == nullptr) return false;
     QNode* node = queue->head;
@@ -25,7 +25,7 @@ bool pop(Queue* queue, std::string& value)
 void freeQueue(Queue* queue)
 {
     std::string value;
-    while (pop(queue, value)) {}
+    while (dequeue(queue, value)) {}
 }
 
 void handleQueue(Command command, Database& db, const std::string& name, std::stringstream& ss)
