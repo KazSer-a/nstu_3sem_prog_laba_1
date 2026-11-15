@@ -57,22 +57,26 @@ void deleteNode(DList* list, DNode* node)
 void popFront(DList* list) { deleteNode(list, list->head); }
 void popBack(DList* list) { deleteNode(list, list->tail); }
 
-void deleteAfter(DList* list, DNode* target)
+bool deleteAfter(DList* list, DNode* target)
 {
-    if (target == nullptr || target->next == nullptr) return;
+    if (target == nullptr || target->next == nullptr) return false;
     deleteNode(list, target->next);
+    return true;
 }
 
-void deleteBefore(DList* list, DNode* target)
+bool deleteBefore(DList* list, DNode* target)
 {
-    if (target == nullptr || target->prev == nullptr) return;
+    if (target == nullptr || target->prev == nullptr) return false;
     deleteNode(list, target->prev);
+    return true;
 }
 
-void deleteValue(DList* list, const std::string& value)
+bool deleteValue(DList* list, const std::string& value)
 {
     DNode* node = findValue(list, value);
-    if (node != nullptr) deleteNode(list, node);
+    if (node == nullptr) return false;
+    deleteNode(list, node);
+    return true;
 }
 
 void freeList(DList* list)
@@ -130,8 +134,7 @@ void handleDlist(Command command, Database& db, const std::string& name, std::st
             {
                 node = findValue(&list, target);
                 if (node == nullptr) std::cout << "нет такого элемента\n";
-                else if (node->next == nullptr) std::cout << "нет следующего элемента\n";
-                else deleteAfter(&list, node);
+                else if (!deleteAfter(&list, node)) std::cout << "нет следующего элемента\n";
             }
             break;
         case Command::LDELB:
@@ -140,17 +143,14 @@ void handleDlist(Command command, Database& db, const std::string& name, std::st
             {
                 node = findValue(&list, target);
                 if (node == nullptr) std::cout << "нет такого элемента\n";
-                else if (node->prev == nullptr) std::cout << "нет предыдущего элемента\n";
-                else deleteBefore(&list, node);
+                else if (!deleteBefore(&list, node)) std::cout << "нет предыдущего элемента\n";
             }
             break;
         case Command::LDEL:
             if (!(ss >> value)) std::cout << "не хватает аргументов\n";
             else
             {
-                node = findValue(&list, value);
-                if (node == nullptr) std::cout << "нет такого элемента\n";
-                else deleteValue(&list, value);
+                if (!deleteValue(&list, value)) std::cout << "нет такого элемента\n";
             }
             break;
         case Command::LFIND:
