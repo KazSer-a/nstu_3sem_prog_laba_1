@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Демонстрационный запуск команд. Проверки ожидаемых результатов находятся в run.sh.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
