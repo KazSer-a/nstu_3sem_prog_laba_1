@@ -16,7 +16,7 @@ struct Queue
     QNode* tail = nullptr;
 };
 
-void push(Queue* queue, const std::string& value);
-bool pop(Queue* queue, std::string& value);
+void enqueue(Queue* queue, const std::string& value);
+bool dequeue(Queue* queue, std::string& value);
 void freeQueue(Queue* queue);
 void handleQueue(Command command, Database& db, const std::string& name, std::stringstream& ss);
