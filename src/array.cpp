@@ -1,6 +1,7 @@
 #include "array.h"
 
 #include <iostream>
+#include <vector>
 
 void initArray(Array* arr)
 {
