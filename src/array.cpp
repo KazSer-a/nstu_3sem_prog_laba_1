@@ -26,7 +26,7 @@ void pushBack(Array* arr, const std::string& value)
     arr->data[arr->size++] = value;
 }
 
-bool insertAt(Array* arr, const std::string& value, int index)
+bool insertAt(Array* arr, int index, const std::string& value)
 {
     if (index < 0 || index > arr->size) return false;
     if (arr->size == arr->capacity) resizeArray(arr);
@@ -43,7 +43,7 @@ bool getAt(const Array* arr, int index, std::string& value)
     return true;
 }
 
-bool setAt(Array* arr, const std::string& value, int index)
+bool setAt(Array* arr, int index, const std::string& value)
 {
     if (index < 0 || index >= arr->size) return false;
     arr->data[index] = value;
@@ -94,7 +94,7 @@ void handleArray(Command command, Database& db, const std::string& name, std::st
             break;
         case Command::MINSERT:
             if (!(ss >> index >> value)) std::cout << "не хватает аргументов\n";
-            else if (!insertAt(&arr, value, index)) std::cout << "неверный индекс\n";
+            else if (!insertAt(&arr, index, value)) std::cout << "неверный индекс\n";
             break;
         case Command::MGET:
             if (!(ss >> index)) std::cout << "не хватает аргументов\n";
@@ -103,7 +103,7 @@ void handleArray(Command command, Database& db, const std::string& name, std::st
             break;
         case Command::MSET:
             if (!(ss >> index >> value)) std::cout << "не хватает аргументов\n";
-            else if (!setAt(&arr, value, index)) std::cout << "нет такого индекса\n";
+            else if (!setAt(&arr, index, value)) std::cout << "нет такого индекса\n";
             break;
         case Command::MDEL:
             if (!(ss >> index)) std::cout << "не хватает аргументов\n";
