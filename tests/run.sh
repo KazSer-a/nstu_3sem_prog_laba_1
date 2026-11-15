@@ -49,6 +49,7 @@ for value in a b c d e; do
     run_go "MPUSH array_go $value" >/dev/null
 done
 check "$(run_go 'MLEN array_go')" '-> 5' "размер массива после расширения"
+check "$(run_go 'MPRINT array_go')" 'a b c d e (size=5, capacity=8)' "увеличение ёмкости массива"
 
 echo "Проверка односвязного списка (C++)"
 run_cpp 'FPUSHH flist_cpp a' >/dev/null
@@ -65,6 +66,8 @@ check "$(run_cpp 'FPRINT flist_cpp')" 'a -> c -> nullptr' "удаление пе
 run_cpp 'FDEL flist_cpp c' >/dev/null
 check "$(run_cpp 'FPRINT flist_cpp')" 'a -> nullptr' "удаление по значению"
 check "$(run_cpp 'FDELA flist_cpp missing')" 'нет такого элемента' "удаление после отсутствующего элемента"
+check "$(run_cpp 'FDELB flist_cpp missing')" 'нет такого элемента' "удаление перед отсутствующим элементом"
+check "$(run_cpp 'FDEL flist_cpp missing')" 'нет такого элемента' "удаление отсутствующего значения"
 check "$(run_cpp 'FDELB flist_cpp a')" 'нет предыдущего элемента' "удаление перед головой"
 check "$(run_cpp 'FDELA flist_cpp a')" 'нет следующего элемента' "удаление после хвоста"
 run_cpp 'FPUSHT flist_cpp b' >/dev/null
@@ -73,6 +76,7 @@ check "$(run_cpp 'FPRINT flist_cpp')" 'a -> nullptr' "удаление хвос�
 run_cpp 'FDELH flist_cpp' >/dev/null
 check "$(run_cpp 'FPRINT flist_cpp')" 'nullptr' "удаление головы"
 check "$(run_cpp 'FDELH flist_cpp')" 'список пуст' "удаление из пустого списка"
+check "$(run_cpp 'FDELT flist_cpp')" 'список пуст' "удаление хвоста пустого списка"
 
 echo "Проверка односвязного списка (Go)"
 run_go 'FPUSHH flist_go a' >/dev/null
@@ -86,7 +90,9 @@ run_go 'FDELB flist_go c' >/dev/null
 check "$(run_go 'FPRINT flist_go')" 'a -> c -> nil' "удаление перед элементом Go"
 run_go 'FDEL flist_go c' >/dev/null
 check "$(run_go 'FPRINT flist_go')" 'a -> nil' "удаление по значению Go"
-check "$(run_go 'FDELA flist_go missing')" 'нет такого элемента' "отсутствующий элемент Go"
+check "$(run_go 'FDELA flist_go missing')" 'нет такого элемента' "удаление после отсутствующего элемента Go"
+check "$(run_go 'FDELB flist_go missing')" 'нет такого элемента' "удаление перед отсутствующим элементом Go"
+check "$(run_go 'FDEL flist_go missing')" 'нет такого элемента' "удаление отсутствующего значения Go"
 check "$(run_go 'FDELB flist_go a')" 'нет предыдущего элемента' "удаление перед головой Go"
 check "$(run_go 'FDELA flist_go a')" 'нет следующего элемента' "удаление после хвоста Go"
 run_go 'FPUSHT flist_go b' >/dev/null
@@ -95,6 +101,7 @@ check "$(run_go 'FPRINT flist_go')" 'a -> nil' "удаление хвоста Go
 run_go 'FDELH flist_go' >/dev/null
 check "$(run_go 'FPRINT flist_go')" 'nil' "удаление головы Go"
 check "$(run_go 'FDELH flist_go')" 'список пуст' "удаление из пустого списка Go"
+check "$(run_go 'FDELT flist_go')" 'список пуст' "удаление хвоста пустого списка Go"
 
 echo "Проверка двусвязного списка (C++)"
 run_cpp 'LPUSHH dlist_cpp a' >/dev/null
@@ -114,6 +121,7 @@ check "$(run_cpp 'LPRINTR dlist_cpp')" 'c <-> a <-> nullptr' "обратные �
 run_cpp 'LDEL dlist_cpp c' >/dev/null
 check "$(run_cpp 'LPRINT dlist_cpp')" 'a <-> nullptr' "удаление по значению"
 check "$(run_cpp 'LDELA dlist_cpp missing')" 'нет такого элемента' "удаление после отсутствующего элемента"
+check "$(run_cpp 'LDEL dlist_cpp missing')" 'нет такого элемента' "удаление отсутствующего значения"
 check "$(run_cpp 'LDELB dlist_cpp a')" 'нет предыдущего элемента' "удаление перед головой"
 check "$(run_cpp 'LDELA dlist_cpp a')" 'нет следующего элемента' "удаление после хвоста"
 run_cpp 'LPUSHT dlist_cpp b' >/dev/null
@@ -122,6 +130,7 @@ check "$(run_cpp 'LPRINT dlist_cpp')" 'a <-> nullptr' "удаление хвос
 run_cpp 'LDELH dlist_cpp' >/dev/null
 check "$(run_cpp 'LPRINT dlist_cpp')" 'nullptr' "удаление головы"
 check "$(run_cpp 'LDELH dlist_cpp')" 'список пуст' "удаление из пустого списка"
+check "$(run_cpp 'LDELT dlist_cpp')" 'список пуст' "удаление хвоста пустого списка"
 
 echo "Проверка двусвязного списка (Go)"
 run_go 'LPUSHH dlist_go a' >/dev/null
@@ -138,6 +147,7 @@ check "$(run_go 'LPRINT dlist_go')" 'a <-> c <-> nil' "удаление пред
 run_go 'LDEL dlist_go c' >/dev/null
 check "$(run_go 'LPRINT dlist_go')" 'a <-> nil' "удаление по значению Go"
 check "$(run_go 'LDELA dlist_go missing')" 'нет такого элемента' "удаление после отсутствующего элемента Go"
+check "$(run_go 'LDEL dlist_go missing')" 'нет такого элемента' "удаление отсутствующего значения Go"
 check "$(run_go 'LDELB dlist_go a')" 'нет предыдущего элемента' "удаление перед головой Go"
 check "$(run_go 'LDELA dlist_go a')" 'нет следующего элемента' "удаление после хвоста Go"
 run_go 'LPUSHT dlist_go b' >/dev/null
@@ -146,6 +156,7 @@ check "$(run_go 'LPRINT dlist_go')" 'a <-> nil' "удаление хвоста G
 run_go 'LDELH dlist_go' >/dev/null
 check "$(run_go 'LPRINT dlist_go')" 'nil' "удаление головы Go"
 check "$(run_go 'LDELT dlist_go')" 'список пуст' "удаление из пустого списка Go"
+check "$(run_go 'LDELH dlist_go')" 'список пуст' "удаление головы пустого списка Go"
 
 echo "Проверка стека (C++)"
 run_cpp 'SPUSH stack_cpp first' >/dev/null
@@ -167,11 +178,15 @@ echo "Проверка стека и очереди (Go)"
 run_go 'SPUSH stack_go first' >/dev/null
 run_go 'SPUSH stack_go second' >/dev/null
 check "$(run_go 'SPRINT stack_go')" 'second -> first -> nil' "порядок стека Go"
-check "$(run_go 'SPOP stack_go')" '-> second' "извлечение из стека Go"
+check "$(run_go 'SPOP stack_go')" '-> second' "извлечение верхнего элемента Go"
+check "$(run_go 'SPOP stack_go')" '-> first' "извлечение следующего элемента Go"
+check "$(run_go 'SPOP stack_go')" '-> стек пуст' "извлечение из пустого стека Go"
 run_go 'QPUSH queue_go first' >/dev/null
 run_go 'QPUSH queue_go second' >/dev/null
 check "$(run_go 'QPRINT queue_go')" 'first -> second -> nil' "порядок очереди Go"
-check "$(run_go 'QPOP queue_go')" '-> first' "извлечение из очереди Go"
+check "$(run_go 'QPOP queue_go')" '-> first' "извлечение первого элемента очереди Go"
+check "$(run_go 'QPOP queue_go')" '-> second' "извлечение следующего элемента очереди Go"
+check "$(run_go 'QPOP queue_go')" '-> очередь пуста' "извлечение из пустой очереди Go"
 
 echo "Проверка бинарного дерева поиска и Full Binary Tree"
 check "$(run_cpp 'TFULL empty_tree')" '-> TRUE' "пустое дерево"
