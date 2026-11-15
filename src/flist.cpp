@@ -137,10 +137,12 @@ void handleFlist(Command command, Database& db, const std::string& name, std::st
             }
             break;
         case Command::FDELH:
-            head = popFront(head);
+            if (head == nullptr) std::cout << "список пуст\n";
+            else head = popFront(head);
             break;
         case Command::FDELT:
-            head = popBack(head);
+            if (head == nullptr) std::cout << "список пуст\n";
+            else head = popBack(head);
             break;
         case Command::FDELA:
             if (!(ss >> target)) std::cout << "не хватает аргументов\n";
@@ -157,7 +159,8 @@ void handleFlist(Command command, Database& db, const std::string& name, std::st
             else
             {
                 node = findValue(head, target);
-                if (node == nullptr || node == head) std::cout << "нет предыдущего элемента\n";
+                if (node == nullptr) std::cout << "нет такого элемента\n";
+                else if (node == head) std::cout << "нет предыдущего элемента\n";
                 else head = deleteBefore(head, node);
             }
             break;
