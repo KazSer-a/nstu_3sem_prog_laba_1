@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <json-c/json.h>
+#include <system_error>
 #include <utility>
 
 bool loadDatabase(const std::string& fileName, Database& db)
