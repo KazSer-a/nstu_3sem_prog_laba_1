@@ -32,17 +32,17 @@ void handleQueue(Command command, Database& db, const std::string& name, std::st
 {
     if (!checkType(db, name, "queue")) return;
     Queue queue;
-    for (const std::string& value : getItems(db, name)) push(&queue, value);
+    for (const std::string& value : getItems(db, name)) enqueue(&queue, value);
 
     std::string value;
     switch (command)
     {
         case Command::QPUSH:
             if (!(ss >> value)) std::cout << "не хватает аргументов\n";
-            else { push(&queue, value); std::cout << "-> " << value << "\n"; }
+            else { enqueue(&queue, value); std::cout << "-> " << value << "\n"; }
             break;
         case Command::QPOP:
-            if (pop(&queue, value)) std::cout << "-> " << value << "\n";
+            if (dequeue(&queue, value)) std::cout << "-> " << value << "\n";
             else std::cout << "-> очередь пуста\n";
             break;
         case Command::QPRINT:
