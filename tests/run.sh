@@ -60,6 +60,23 @@ check_go() {
     check "$actual" "$expected" "$description"
 }
 
+check_cpp_contains() {
+    local query="$1"
+    local expected="$2"
+    local description="$3"
+    local actual
+
+    if ! actual=$(run_cpp "$query"); then
+        echo "Ошибка запуска C++ команды: $query"
+        exit 1
+    fi
+    if [[ "$actual" != *"$expected"* ]]; then
+        printf 'Ошибка: %s\nОжидаемая строка: <%s>\nПолученный вывод: <%s>\n' \
+            "$description" "$expected" "$actual"
+        exit 1
+    fi
+}
+
 echo "Проверка динамического массива (C++)"
 check_cpp 'MPUSH array_cpp a' '-> a' "добавление в массив"
 run_cpp 'MPUSH array_cpp b' >/dev/null
@@ -294,7 +311,11 @@ run_cpp 'TINSERT tree 14' >/dev/null
 check_cpp 'TFULL tree' '-> TRUE' "полное бинарное дерево"
 check_cpp 'TFIND tree 10' '-> TRUE' "поиск в дереве"
 check_cpp 'TFIND tree 99' '-> FALSE' "поиск отсутствующего ключа"
-check_cpp 'TPRINT tree' 
+check_cpp_contains 'TPRINT tree' 'прямой:       8 4 2 6 12 10 14' "прямой обход дерева"
+check_cpp_contains 'TPRINT tree' 'симметричный: 2 4 6 8 10 12 14' "симметричный обход дерева"
+check_cpp_contains 'TPRINT tree' 'обратный:     2 6 4 10 14 12 8' "обратный обход дерева"
+check_cpp_contains 'TPRINT tree' 'в ширину:     8 4 12 2 6 10 14' "обход дерева в ширину"
+check_cpp_contains 'PRINT tree' 'прямой:       8 4 2 6 12 10 14' "универсальная печать дерева"
 run_cpp 'TINSERT tree 8' >/dev/null
 check_cpp 'TFULL tree' '-> FALSE' "дерево с узлом, имеющим одного потомка"
 
@@ -306,31 +327,5 @@ check_go 'MGET array_cpp 3' '-> from_cpp' "чтение C++-данных из Go
 run_cpp 'QPUSH shared_queue cpp_value' >/dev/null
 check_go 'QPOP shared_queue' '-> cpp_value' "чтение очереди C++-версией из Go"
 
-printf 'Все проверки пройдены.\n'
-прямой:       8 4 2 6 12 10 14 \nсимметричный: 2 4 6 8 10 12 14 \nобратный:     2 6 4 10 14 12 8 \nв ширину:     8 4 12 2 6 10 14 ' "обходы дерева"
-check_cpp 'PRINT tree' 
-run_cpp 'TINSERT tree 8' >/dev/null
-check_cpp 'TFULL tree' '-> FALSE' "дерево с узлом, имеющим одного потомка"
-
-echo "Проверка обмена данными между C++ и Go"
-run_go 'MPUSH array_cpp from_go' >/dev/null
-check_cpp 'MGET array_cpp 2' '-> from_go' "чтение Go-данных из C++"
-run_cpp 'MPUSH array_cpp from_cpp' >/dev/null
-check_go 'MGET array_cpp 3' '-> from_cpp' "чтение C++-данных из Go"
-run_cpp 'QPUSH shared_queue cpp_value' >/dev/null
-check_go 'QPOP shared_queue' '-> cpp_value' "чтение очереди C++-версией из Go"
-
-printf 'Все проверки пройдены.\n'
-прямой:       8 4 2 6 12 10 14 \nсимметричный: 2 4 6 8 10 12 14 \nобратный:     2 6 4 10 14 12 8 \nв ширину:     8 4 12 2 6 10 14 ' "универсальная печать дерева"
-run_cpp 'TINSERT tree 8' >/dev/null
-check_cpp 'TFULL tree' '-> FALSE' "дерево с узлом, имеющим одного потомка"
-
-echo "Проверка обмена данными между C++ и Go"
-run_go 'MPUSH array_cpp from_go' >/dev/null
-check_cpp 'MGET array_cpp 2' '-> from_go' "чтение Go-данных из C++"
-run_cpp 'MPUSH array_cpp from_cpp' >/dev/null
-check_go 'MGET array_cpp 3' '-> from_cpp' "чтение C++-данных из Go"
-run_cpp 'QPUSH shared_queue cpp_value' >/dev/null
-check_go 'QPOP shared_queue' '-> cpp_value' "чтение очереди C++-версией из Go"
 
 printf 'Все проверки пройдены.\n'
