@@ -57,6 +57,24 @@ void deleteNode(DList* list, DNode* node)
 void popFront(DList* list) { deleteNode(list, list->head); }
 void popBack(DList* list) { deleteNode(list, list->tail); }
 
+void deleteAfter(DList* list, DNode* target)
+{
+    if (target == nullptr || target->next == nullptr) return;
+    deleteNode(list, target->next);
+}
+
+void deleteBefore(DList* list, DNode* target)
+{
+    if (target == nullptr || target->prev == nullptr) return;
+    deleteNode(list, target->prev);
+}
+
+void deleteValue(DList* list, const std::string& value)
+{
+    DNode* node = findValue(list, value);
+    if (node != nullptr) deleteNode(list, node);
+}
+
 void freeList(DList* list)
 {
     while (list->head != nullptr) popFront(list);
@@ -111,8 +129,9 @@ void handleDlist(Command command, Database& db, const std::string& name, std::st
             else
             {
                 node = findValue(&list, target);
-                if (node == nullptr || node->next == nullptr) std::cout << "нет следующего элемента\n";
-                else deleteNode(&list, node->next);
+                if (node == nullptr) std::cout << "нет такого элемента\n";
+                else if (node->next == nullptr) std::cout << "нет следующего элемента\n";
+                else deleteAfter(&list, node);
             }
             break;
         case Command::LDELB:
@@ -120,8 +139,9 @@ void handleDlist(Command command, Database& db, const std::string& name, std::st
             else
             {
                 node = findValue(&list, target);
-                if (node == nullptr || node->prev == nullptr) std::cout << "нет предыдущего элемента\n";
-                else deleteNode(&list, node->prev);
+                if (node == nullptr) std::cout << "нет такого элемента\n";
+                else if (node->prev == nullptr) std::cout << "нет предыдущего элемента\n";
+                else deleteBefore(&list, node);
             }
             break;
         case Command::LDEL:
@@ -130,7 +150,7 @@ void handleDlist(Command command, Database& db, const std::string& name, std::st
             {
                 node = findValue(&list, value);
                 if (node == nullptr) std::cout << "нет такого элемента\n";
-                else deleteNode(&list, node);
+                else deleteValue(&list, value);
             }
             break;
         case Command::LFIND:
