@@ -182,7 +182,9 @@ func handleFlist(command string, db Database, name string, args []string) {
     case "FDELA":
         if need(args, 1) {
             node := list.find(args[0])
-            if node == nil || node.next == nil {
+            if node == nil {
+                fmt.Println("нет такого элемента")
+            } else if node.next == nil {
                 fmt.Println("нет следующего элемента")
             } else {
                 list.popAfter(node)
@@ -191,7 +193,9 @@ func handleFlist(command string, db Database, name string, args []string) {
     case "FDELB":
         if need(args, 1) {
             node := list.find(args[0])
-            if node == nil || node == list.head {
+            if node == nil {
+                fmt.Println("нет такого элемента")
+            } else if node == list.head {
                 fmt.Println("нет предыдущего элемента")
             } else {
                 list.popBefore(node)
