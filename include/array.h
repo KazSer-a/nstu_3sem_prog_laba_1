@@ -14,9 +14,9 @@ struct Array
 void initArray(Array* arr);
 void resizeArray(Array* arr);
 void pushBack(Array* arr, const std::string& value);
-bool insertAt(Array* arr, const std::string& value, int index);
+bool insertAt(Array* arr, int index, const std::string& value);
 bool getAt(const Array* arr, int index, std::string& value);
-bool setAt(Array* arr, const std::string& value, int index);
+bool setAt(Array* arr, int index, const std::string& value);
 bool removeAt(Array* arr, int index);
 int lengthArray(const Array* arr);
 void printArray(const Array* arr);
