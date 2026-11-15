@@ -85,6 +85,31 @@ func (list *DList) deleteNode(node *DNode) {
 func (list *DList) popFront() { list.deleteNode(list.head) }
 func (list *DList) popBack() { list.deleteNode(list.tail) }
 
+func (list *DList) deleteAfter(target *DNode) bool {
+    if target == nil || target.next == nil {
+        return false
+    }
+    list.deleteNode(target.next)
+    return true
+}
+
+func (list *DList) deleteBefore(target *DNode) bool {
+    if target == nil || target.prev == nil {
+        return false
+    }
+    list.deleteNode(target.prev)
+    return true
+}
+
+func (list *DList) deleteValue(value string) bool {
+    node := list.find(value)
+    if node == nil {
+        return false
+    }
+    list.deleteNode(node)
+    return true
+}
+
 func (list *DList) items() []string {
     items := []string{}
     for current := list.head; current != nil; current = current.next {
@@ -144,28 +169,25 @@ func handleDlist(command string, db Database, name string, args []string) {
     case "LDELA":
         if need(args, 1) {
             node := list.find(args[0])
-            if node == nil || node.next == nil {
+            if node == nil {
+                fmt.Println("нет такого элемента")
+            } else if !list.deleteAfter(node) {
                 fmt.Println("нет следующего элемента")
-            } else {
-                list.deleteNode(node.next)
             }
         }
     case "LDELB":
         if need(args, 1) {
             node := list.find(args[0])
-            if node == nil || node.prev == nil {
+            if node == nil {
+                fmt.Println("нет такого элемента")
+            } else if !list.deleteBefore(node) {
                 fmt.Println("нет предыдущего элемента")
-            } else {
-                list.deleteNode(node.prev)
             }
         }
     case "LDEL":
         if need(args, 1) {
-            node := list.find(args[0])
-            if node == nil {
+            if !list.deleteValue(args[0]) {
                 fmt.Println("нет такого элемента")
-            } else {
-                list.deleteNode(node)
             }
         }
     case "LFIND":
