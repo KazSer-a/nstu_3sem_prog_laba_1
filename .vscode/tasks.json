@@ -24,7 +24,7 @@
         "command": "cmd",
         "args": [
           "/c",
-          "${workspaceFolder}\\run_demo.bat"
+          "\"${workspaceFolder}\\\\run_demo.bat\""
         ]
       },
       "dependsOn": "Build C++ project",
