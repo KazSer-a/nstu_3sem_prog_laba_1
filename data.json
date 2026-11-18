@@ -1,1 +1,14 @@
-{}
+{
+  "mytree":{
+    "type":"tree",
+    "data":[
+      "8"
+    ]
+  },
+  "myarray":{
+    "type":"array",
+    "data":[
+      "10"
+    ]
+  }
+}
