@@ -1,91 +1,116 @@
-# Лабораторная работа № 1
+# Laba 1 — Proga Release
 
-Абстрактные структуры данных. Индивидуальный вариант № 4 — Full Binary Tree.
+Лабораторная работа № 1 «Абстрактные структуры данных».
+Индивидуальный вариант № 4 — **Full Binary Tree**.
 
-## Состав проекта
+## Что реализовано
 
-- C++: динамический массив, односвязный и двусвязный списки, стек, очередь и бинарное дерево поиска с проверкой Full Binary Tree.
-- Go: массив, односвязный и двусвязный списки, стек и очередь.
-- Дерево реализовано на C++.
-- Состояние структур хранится в JSON-файле.
+- C++17: динамический массив, односвязный список, двусвязный список, стек, очередь и бинарное дерево поиска.
+- Для дерева: вставка, поиск, проверка Full Binary Tree и четыре обхода.
+- Данные структур сохраняются в JSON-файле.
+- В папке `go/` находится дополнительная реализация массива, списков, стека и очереди на Go. Дерево реализовано на C++.
 
-## Зависимости
+## Структура проекта
 
-Для C++ нужны g++ с поддержкой C++17, make, pkg-config и json-c.
+```text
+include/       объявления структур и функций
+src/           реализация структур и обработчиков
+go/            дополнительная реализация на Go
+tests/         тестовые сценарии
+main.cpp       точка входа
+Makefile       сборка C++-проекта
+data.json      файл состояния структур
+.vscode/       задачи для сборки и демонстрации в VS Code
+```
 
-В Ubuntu зависимости устанавливаются командой:
+## Запуск в VS Code
+
+Открой корневую папку проекта в VS Code. Встроенный терминал должен быть открыт в корне проекта.
+
+1. Собери программу: **Terminal → Run Build Task** или нажми `Ctrl+Shift+B`.
+2. Запусти демонстрацию дерева: **Terminal → Run Task → Run tree demo**.
+3. Для ручного ввода команд используй встроенный терминал.
+
+Задача сборки использует `make`. Задача демонстрации сначала собирает проект, затем запускает набор команд для дерева.
+
+## Установка зависимостей
+
+### Windows (MSYS2 UCRT64)
+
+Установи MSYS2, открой терминал **MSYS2 UCRT64** и выполни:
 
 ```bash
+pacman -S --needed mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-json-c mingw-w64-ucrt-x86_64-pkgconf make
+```
+
+Из этого же терминала перейди в папку проекта и открой VS Code командой:
+
+```bash
+code .
+```
+
+Важно: используй терминал MSYS2 UCRT64, чтобы `g++`, `make` и `pkg-config` находились в PATH.
+
+### Ubuntu / Debian / WSL
+
+```bash
+sudo apt update
 sudo apt install g++ make pkg-config libjson-c-dev
 ```
 
-Для сборки Go нужен Go 1.20 или новее.
-
-## Сборка
-
-C++:
+## Сборка вручную
 
 ```bash
 make
 ```
 
-Go:
-
-```bash
-cd go
-go build -o dbms_go .
-```
-
-## Запуск
-
-C++:
-
-```bash
-./dbms --file data.json --query "MPUSH myarray 10"
-```
-
-Go:
-
-```bash
-cd go
-./dbms_go --file ../data.json --query "SPUSH mystack item"
-```
-
-В запросе указываются команда, имя структуры и её аргументы. Значения передаются одним словом без пробелов.
-
-## Команды
-
-Массив: `MPUSH`, `MINSERT`, `MGET`, `MSET`, `MDEL`, `MLEN`, `MPRINT`.
-
-Односвязный список: `FPUSHH`, `FPUSHT`, `FPUSHA`, `FPUSHB`, `FDELH`, `FDELT`, `FDELA`, `FDELB`, `FDEL`, `FFIND`, `FPRINT`, `FPRINTR`.
-
-Двусвязный список: те же операции с первой буквой `L`.
-
-Стек: `SPUSH`, `SPOP`, `SPRINT`.
-
-Очередь: `QPUSH`, `QPOP`, `QPRINT`.
-
-Дерево: `TINSERT`, `TFIND`, `TFULL`, `TPRINT`.
-
-Общая команда: `PRINT <имя_структуры>`.
-
-В дереве меньшие ключи размещаются слева, большие и равные — справа. Повторяющиеся значения разрешены.
+После успешной сборки появится исполняемый файл `dbms` (в Windows — `dbms.exe`).
 
 ## Примеры команд
 
+Добавление узлов:
+
 ```bash
-./dbms --file data.json --query "MPUSH numbers 10"
-./dbms --file data.json --query "MINSERT numbers 0 5"
-./dbms --file data.json --query "MPRINT numbers"
-./dbms --file data.json --query "FPUSHT names Alex"
-./dbms --file data.json --query "SPUSH mystack 1"
-./dbms --file data.json --query "QPUSH myqueue 1"
 ./dbms --file data.json --query "TINSERT mytree 8"
+./dbms --file data.json --query "TINSERT mytree 4"
+./dbms --file data.json --query "TINSERT mytree 12"
+```
+
+Проверка дерева:
+
+```bash
 ./dbms --file data.json --query "TFULL mytree"
 ```
 
+Вывод обходов:
+
+```bash
+./dbms --file data.json --query "TPRINT mytree"
+```
+
+В Windows из терминала MSYS2 UCRT64 используй `./dbms.exe`.
+
+## Формат команды
+
+```text
+./dbms --file <файл> --query "<КОМАНДА> <ИМЯ_СТРУКТУРЫ> <АРГУМЕНТЫ>"
+```
+
+Основные команды дерева:
+
+- `TINSERT` — добавить ключ.
+- `TFIND` — найти ключ.
+- `TFULL` — проверить свойство Full Binary Tree.
+- `TPRINT` — вывести четыре обхода.
+
+В дереве меньшие ключи размещаются слева, большие и равные — справа. Дубликаты разрешены.
+
 ## Очистка
+
+Удалить исполняемый файл:
 
 ```bash
 make clean
 ```
+
+Для нового демонстрационного запуска скрипт использует отдельный файл `data_demo.json`. Основной `data.json` он не изменяет.
