@@ -11,10 +11,12 @@ type FList struct {
     head *FNode
 }
 
+// Добавляет узел в начало списка.
 func (list *FList) pushFront(value string) {
     list.head = &FNode{value: value, next: list.head}
 }
 
+// Добавляет узел в конец списка.
 func (list *FList) pushBack(value string) {
     node := &FNode{value: value}
     if list.head == nil {
@@ -28,6 +30,7 @@ func (list *FList) pushBack(value string) {
     current.next = node
 }
 
+// Находит узел по значению.
 func (list *FList) find(value string) *FNode {
     for current := list.head; current != nil; current = current.next {
         if current.value == value {
@@ -37,12 +40,14 @@ func (list *FList) find(value string) *FNode {
     return nil
 }
 
+// Вставляет узел после указанного.
 func (list *FList) pushAfter(target *FNode, value string) {
     if target != nil {
         target.next = &FNode{value: value, next: target.next}
     }
 }
 
+// Вставляет узел перед указанным.
 func (list *FList) pushBefore(target *FNode, value string) {
     if target == nil {
         return
@@ -60,12 +65,14 @@ func (list *FList) pushBefore(target *FNode, value string) {
     }
 }
 
+// Удаляет первый узел списка.
 func (list *FList) popFront() {
     if list.head != nil {
         list.head = list.head.next
     }
 }
 
+// Удаляет последний узел списка.
 func (list *FList) popBack() {
     if list.head == nil {
         return
@@ -81,12 +88,14 @@ func (list *FList) popBack() {
     current.next = nil
 }
 
+// Удаляет узел после указанного.
 func (list *FList) popAfter(target *FNode) {
     if target != nil && target.next != nil {
         target.next = target.next.next
     }
 }
 
+// Удаляет узел перед указанным.
 func (list *FList) popBefore(target *FNode) {
     if target == nil || target == list.head {
         return
@@ -104,6 +113,7 @@ func (list *FList) popBefore(target *FNode) {
     }
 }
 
+// Удаляет узел по значению.
 func (list *FList) deleteValue(value string) bool {
     if list.head == nil {
         return false
@@ -123,6 +133,7 @@ func (list *FList) deleteValue(value string) bool {
     return true
 }
 
+// Возвращает элементы списка по порядку.
 func (list *FList) items() []string {
     items := []string{}
     for current := list.head; current != nil; current = current.next {
@@ -131,6 +142,7 @@ func (list *FList) items() []string {
     return items
 }
 
+// Выполняет команду односвязного списка.
 func handleFlist(command string, db Database, name string, args []string) {
     if !checkType(db, name, "flist") {
         return
