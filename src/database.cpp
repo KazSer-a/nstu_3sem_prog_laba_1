@@ -7,6 +7,7 @@
 #include <system_error>
 #include <utility>
 
+// Загружает структуры из JSON-файла.
 bool loadDatabase(const std::string& fileName, Database& db)
 {
     std::error_code fileError;
@@ -89,6 +90,7 @@ bool loadDatabase(const std::string& fileName, Database& db)
     return true;
 }
 
+// Сохраняет все структуры в JSON-файл.
 bool saveDatabase(const std::string& fileName, const Database& db)
 {
     json_object* root = json_object_new_object();
@@ -115,6 +117,7 @@ bool saveDatabase(const std::string& fileName, const Database& db)
     return true;
 }
 
+// Проверяет тип структуры с указанным именем.
 bool checkType(const Database& db, const std::string& name, const std::string& type)
 {
     auto it = db.find(name);
@@ -126,12 +129,14 @@ bool checkType(const Database& db, const std::string& name, const std::string& t
     return true;
 }
 
+// Возвращает сохранённые элементы структуры.
 std::vector<std::string> getItems(const Database& db, const std::string& name)
 {
     auto it = db.find(name);
     return it == db.end() ? std::vector<std::string>{} : it->second.data;
 }
 
+// Обновляет запись структуры в базе данных.
 void saveItems(Database& db, const std::string& name, const std::string& type,
                const std::vector<std::string>& items)
 {
