@@ -8,12 +8,14 @@ type Array struct {
     capacity int
 }
 
+// Создаёт массив с начальной вместимостью.
 func initArray(arr *Array) {
     arr.capacity = 4
     arr.data = make([]string, arr.capacity)
     arr.size = 0
 }
 
+// Увеличивает вместимость массива.
 func resizeArray(arr *Array) {
     capacity := arr.capacity * 2
     data := make([]string, capacity)
@@ -22,6 +24,7 @@ func resizeArray(arr *Array) {
     arr.capacity = capacity
 }
 
+// Добавляет элемент в конец массива.
 func arrayPushBack(arr *Array, value string) {
     if arr.size == arr.capacity {
         resizeArray(arr)
@@ -30,6 +33,7 @@ func arrayPushBack(arr *Array, value string) {
     arr.size++
 }
 
+// Вставляет элемент по индексу.
 func arrayInsertAt(arr *Array, index int, value string) bool {
     if index < 0 || index > arr.size {
         return false
@@ -45,6 +49,7 @@ func arrayInsertAt(arr *Array, index int, value string) bool {
     return true
 }
 
+// Возвращает элемент по индексу.
 func arrayGetAt(arr *Array, index int) (string, bool) {
     if index < 0 || index >= arr.size {
         return "", false
@@ -52,6 +57,7 @@ func arrayGetAt(arr *Array, index int) (string, bool) {
     return arr.data[index], true
 }
 
+// Изменяет элемент по индексу.
 func arraySetAt(arr *Array, index int, value string) bool {
     if index < 0 || index >= arr.size {
         return false
@@ -60,6 +66,7 @@ func arraySetAt(arr *Array, index int, value string) bool {
     return true
 }
 
+// Удаляет элемент по индексу.
 func arrayRemoveAt(arr *Array, index int) bool {
     if index < 0 || index >= arr.size {
         return false
@@ -72,6 +79,7 @@ func arrayRemoveAt(arr *Array, index int) bool {
     return true
 }
 
+// Выводит содержимое массива.
 func arrayPrint(arr *Array) {
     for i := 0; i < arr.size; i++ {
         fmt.Print(arr.data[i], " ")
@@ -79,6 +87,7 @@ func arrayPrint(arr *Array) {
     fmt.Printf("(size=%d, capacity=%d)\n", arr.size, arr.capacity)
 }
 
+// Выполняет команду массива и сохраняет результат.
 func handleArray(command string, db Database, name string, args []string) {
     if !checkType(db, name, "array") {
         return
