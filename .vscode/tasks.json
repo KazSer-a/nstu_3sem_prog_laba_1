@@ -1,0 +1,35 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build C++ project",
+      "type": "shell",
+      "command": "make",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "Run tree demo",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "${workspaceFolder}/run_demo.sh"
+      ],
+      "windows": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "${workspaceFolder}\\run_demo.bat"
+        ]
+      },
+      "dependsOn": "Build C++ project",
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    }
+  ]
+}
