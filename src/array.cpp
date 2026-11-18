@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+// Создаёт массив с начальной вместимостью.
 void initArray(Array* arr)
 {
     arr->capacity = 4;
@@ -10,6 +11,7 @@ void initArray(Array* arr)
     arr->data = new std::string[arr->capacity];
 }
 
+// Увеличивает вместимость массива в два раза.
 void resizeArray(Array* arr)
 {
     int newCapacity = arr->capacity == 0 ? 4 : arr->capacity * 2;
@@ -20,12 +22,14 @@ void resizeArray(Array* arr)
     arr->capacity = newCapacity;
 }
 
+// Добавляет элемент в конец массива.
 void pushBack(Array* arr, const std::string& value)
 {
     if (arr->size == arr->capacity) resizeArray(arr);
     arr->data[arr->size++] = value;
 }
 
+// Вставляет элемент по заданному индексу.
 bool insertAt(Array* arr, int index, const std::string& value)
 {
     if (index < 0 || index > arr->size) return false;
@@ -36,6 +40,7 @@ bool insertAt(Array* arr, int index, const std::string& value)
     return true;
 }
 
+// Получает элемент по индексу.
 bool getAt(const Array* arr, int index, std::string& value)
 {
     if (index < 0 || index >= arr->size) return false;
@@ -43,6 +48,7 @@ bool getAt(const Array* arr, int index, std::string& value)
     return true;
 }
 
+// Изменяет элемент по индексу.
 bool setAt(Array* arr, int index, const std::string& value)
 {
     if (index < 0 || index >= arr->size) return false;
@@ -50,6 +56,7 @@ bool setAt(Array* arr, int index, const std::string& value)
     return true;
 }
 
+// Удаляет элемент и сдвигает оставшиеся значения.
 bool removeAt(Array* arr, int index)
 {
     if (index < 0 || index >= arr->size) return false;
@@ -58,17 +65,20 @@ bool removeAt(Array* arr, int index)
     return true;
 }
 
+// Возвращает количество элементов массива.
 int lengthArray(const Array* arr)
 {
     return arr->size;
 }
 
+// Выводит элементы, размер и вместимость массива.
 void printArray(const Array* arr)
 {
     for (int i = 0; i < arr->size; i++) std::cout << arr->data[i] << " ";
     std::cout << "(size=" << arr->size << ", capacity=" << arr->capacity << ")\n";
 }
 
+// Освобождает память массива и сбрасывает его поля.
 void freeArray(Array* arr)
 {
     delete[] arr->data;
@@ -77,6 +87,7 @@ void freeArray(Array* arr)
     arr->capacity = 0;
 }
 
+// Выполняет команду массива и сохраняет его состояние.
 void handleArray(Command command, Database& db, const std::string& name, std::stringstream& ss)
 {
     if (!checkType(db, name, "array")) return;
