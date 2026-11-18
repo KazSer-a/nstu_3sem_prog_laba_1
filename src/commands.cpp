@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 
+// Преобразует текст команды в значение перечисления Command.
 Command toCommand(const std::string& text)
 {
     static const std::unordered_map<std::string, Command> commands = {
