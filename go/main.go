@@ -6,6 +6,7 @@ import (
     "strings"
 )
 
+// Разбирает параметры запуска и выполняет команду.
 func main() {
     if len(os.Args) != 5 || os.Args[1] != "--file" || os.Args[3] != "--query" {
         fmt.Println("Использование: ./dbms_go --file <файл> --query '<команда>'")
@@ -60,6 +61,7 @@ func main() {
     }
 }
 
+// Выводит структуру по имени.
 func handlePrint(db Database, name string) {
     entry, ok := db[name]
     if !ok {
