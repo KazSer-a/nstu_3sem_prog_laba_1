@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <vector>
 
+// Вставляет ключ в бинарное дерево поиска.
 TreeNode* insert(TreeNode* root, int key)
 {
     TreeNode* node = new TreeNode{key, nullptr, nullptr};
@@ -35,6 +36,7 @@ TreeNode* insert(TreeNode* root, int key)
     return root;
 }
 
+// Ищет узел с заданным ключом.
 TreeNode* search(TreeNode* root, int key)
 {
     TreeNode* current = root;
@@ -46,6 +48,7 @@ TreeNode* search(TreeNode* root, int key)
     return nullptr;
 }
 
+// Проверяет, имеет ли каждый узел ноль или двух потомков.
 bool isFull(TreeNode* root)
 {
     if (root == nullptr) return true;
@@ -53,6 +56,7 @@ bool isFull(TreeNode* root)
     return isFull(root->left) && isFull(root->right);
 }
 
+// Выводит дерево в прямом порядке обхода.
 void preorder(TreeNode* root)
 {
     if (root == nullptr) return;
@@ -61,6 +65,7 @@ void preorder(TreeNode* root)
     preorder(root->right);
 }
 
+// Выводит дерево в симметричном порядке обхода.
 void inorder(TreeNode* root)
 {
     if (root == nullptr) return;
@@ -69,6 +74,7 @@ void inorder(TreeNode* root)
     inorder(root->right);
 }
 
+// Выводит дерево в обратном порядке обхода.
 void postorder(TreeNode* root)
 {
     if (root == nullptr) return;
@@ -77,6 +83,7 @@ void postorder(TreeNode* root)
     std::cout << root->key << " ";
 }
 
+// Обходит и выводит дерево по уровням.
 void bfs(TreeNode* root)
 {
     if (root == nullptr) return;
@@ -92,6 +99,7 @@ void bfs(TreeNode* root)
     }
 }
 
+// Освобождает память всех узлов дерева.
 void freeTree(TreeNode* root)
 {
     if (root == nullptr) return;
@@ -100,6 +108,7 @@ void freeTree(TreeNode* root)
     delete root;
 }
 
+// Выполняет команду дерева и сохраняет его состояние.
 void handleTree(Command command, Database& db, const std::string& name, std::stringstream& ss)
 {
     if (!checkType(db, name, "tree")) return;
