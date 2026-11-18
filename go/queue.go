@@ -12,6 +12,7 @@ type Queue struct {
     tail *QNode
 }
 
+// Добавляет элемент в конец очереди.
 func (queue *Queue) enqueue(value string) {
     node := &QNode{value: value}
     if queue.tail != nil {
@@ -22,6 +23,7 @@ func (queue *Queue) enqueue(value string) {
     queue.tail = node
 }
 
+// Извлекает элемент из начала очереди.
 func (queue *Queue) dequeue() (string, bool) {
     if queue.head == nil {
         return "", false
@@ -34,6 +36,7 @@ func (queue *Queue) dequeue() (string, bool) {
     return value, true
 }
 
+// Возвращает элементы очереди по порядку.
 func (queue *Queue) items() []string {
     items := []string{}
     for current := queue.head; current != nil; current = current.next {
@@ -42,6 +45,7 @@ func (queue *Queue) items() []string {
     return items
 }
 
+// Выполняет команду очереди.
 func handleQueue(command string, db Database, name string, args []string) {
     if !checkType(db, name, "queue") {
         return
