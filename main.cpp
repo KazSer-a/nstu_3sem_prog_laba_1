@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string>
 
+// Выводит структуру по имени через подходящий обработчик.
 void handlePrint(Database& db, const std::string& name)
 {
     auto it = db.find(name);
@@ -27,6 +28,7 @@ void handlePrint(Database& db, const std::string& name)
     else if (it->second.type == "tree") handleTree(Command::TPRINT, db, name, ss);
 }
 
+// Разбирает параметры запуска и передаёт команду нужной структуре.
 int main(int argc, char* argv[])
 {
     if (argc != 5 || std::string(argv[1]) != "--file" || std::string(argv[3]) != "--query")
