@@ -1,0 +1,30 @@
+name: build-check
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install C++ dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++ make pkg-config libjson-c-dev
+      - name: Build C++
+        run: make
+      - name: Build Go
+        run: cd go && go build -o dbms_go .
+      - name: Check clean data and remove binaries
+        run: |
+          test "$(tr -d '\n' < data.json)" = "{}"
+          make clean
+          rm -f go/dbms_go go/dbms_go.exe
+          test ! -e dbms
+          test ! -e dbms.exe
+          test ! -e go/dbms_go
+          test ! -e go/dbms_go.exe
+          test ! -d tests
+          test ! -e REPORT.md
+          test ! -e include/.gitkeep
+          test ! -e src/.gitkeep
