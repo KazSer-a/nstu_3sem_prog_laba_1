@@ -3,11 +3,13 @@
 #include <iostream>
 #include <vector>
 
+// Добавляет узел в начало односвязного списка.
 FNode* pushFront(FNode* head, const std::string& value)
 {
     return new FNode{value, head};
 }
 
+// Добавляет узел в конец односвязного списка.
 FNode* pushBack(FNode* head, const std::string& value)
 {
     FNode* node = new FNode{value, nullptr};
@@ -18,6 +20,7 @@ FNode* pushBack(FNode* head, const std::string& value)
     return head;
 }
 
+// Находит первый узел с заданным значением.
 FNode* findValue(FNode* head, const std::string& value)
 {
     for (FNode* current = head; current != nullptr; current = current->next)
@@ -25,12 +28,14 @@ FNode* findValue(FNode* head, const std::string& value)
     return nullptr;
 }
 
+// Вставляет новый узел после указанного.
 FNode* insertAfter(FNode* head, FNode* target, const std::string& value)
 {
     if (target != nullptr) target->next = new FNode{value, target->next};
     return head;
 }
 
+// Вставляет новый узел перед указанным.
 FNode* insertBefore(FNode* head, FNode* target, const std::string& value)
 {
     if (target == nullptr) return head;
@@ -41,6 +46,7 @@ FNode* insertBefore(FNode* head, FNode* target, const std::string& value)
     return head;
 }
 
+// Удаляет первый узел списка.
 FNode* popFront(FNode* head)
 {
     if (head == nullptr) return nullptr;
@@ -49,6 +55,7 @@ FNode* popFront(FNode* head)
     return next;
 }
 
+// Удаляет последний узел списка.
 FNode* popBack(FNode* head)
 {
     if (head == nullptr) return nullptr;
@@ -64,6 +71,7 @@ FNode* popBack(FNode* head)
     return head;
 }
 
+// Удаляет узел после указанного.
 FNode* deleteAfter(FNode* head, FNode* target)
 {
     if (target == nullptr || target->next == nullptr) return head;
@@ -73,6 +81,7 @@ FNode* deleteAfter(FNode* head, FNode* target)
     return head;
 }
 
+// Удаляет узел перед указанным.
 FNode* deleteBefore(FNode* head, FNode* target)
 {
     if (head == nullptr || target == nullptr || target == head) return head;
@@ -84,6 +93,7 @@ FNode* deleteBefore(FNode* head, FNode* target)
     return head;
 }
 
+// Удаляет первый узел с заданным значением.
 FNode* deleteValue(FNode* head, const std::string& value)
 {
     if (head == nullptr) return nullptr;
@@ -95,11 +105,13 @@ FNode* deleteValue(FNode* head, const std::string& value)
     return head;
 }
 
+// Освобождает все узлы односвязного списка.
 void freeList(FNode* head)
 {
     while (head != nullptr) head = popFront(head);
 }
 
+// Выполняет команду односвязного списка и сохраняет результат.
 void handleFlist(Command command, Database& db, const std::string& name, std::stringstream& ss)
 {
     if (!checkType(db, name, "flist")) return;
