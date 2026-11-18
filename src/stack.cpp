@@ -4,11 +4,13 @@
 #include <iostream>
 #include <vector>
 
+// Добавляет элемент на вершину стека.
 void push(Stack* stack, const std::string& value)
 {
     stack->head = new SNode{value, stack->head};
 }
 
+// Извлекает элемент с вершины стека.
 bool pop(Stack* stack, std::string& value)
 {
     if (stack->head == nullptr) return false;
@@ -19,12 +21,14 @@ bool pop(Stack* stack, std::string& value)
     return true;
 }
 
+// Освобождает все элементы стека.
 void freeStack(Stack* stack)
 {
     std::string value;
     while (pop(stack, value)) {}
 }
 
+// Выполняет команду стека и сохраняет его состояние.
 void handleStack(Command command, Database& db, const std::string& name, std::stringstream& ss)
 {
     if (!checkType(db, name, "stack")) return;
