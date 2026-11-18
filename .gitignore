@@ -4,3 +4,4 @@ dbms.exe
 go/dbms_go
 go/dbms_go.exe
 go/*.test
+data_demo.json
