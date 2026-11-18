@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+// Добавляет узел в начало двусвязного списка.
 void pushFront(DList* list, const std::string& value)
 {
     DNode* node = new DNode{value, list->head, nullptr};
@@ -11,6 +12,7 @@ void pushFront(DList* list, const std::string& value)
     list->head = node;
 }
 
+// Добавляет узел в конец двусвязного списка.
 void pushBack(DList* list, const std::string& value)
 {
     DNode* node = new DNode{value, nullptr, list->tail};
@@ -19,6 +21,7 @@ void pushBack(DList* list, const std::string& value)
     list->tail = node;
 }
 
+// Находит первый узел с заданным значением.
 DNode* findValue(DList* list, const std::string& value)
 {
     for (DNode* current = list->head; current != nullptr; current = current->next)
@@ -26,6 +29,7 @@ DNode* findValue(DList* list, const std::string& value)
     return nullptr;
 }
 
+// Вставляет новый узел после указанного.
 void insertAfter(DList* list, DNode* target, const std::string& value)
 {
     if (target == nullptr) return;
@@ -35,6 +39,7 @@ void insertAfter(DList* list, DNode* target, const std::string& value)
     target->next = node;
 }
 
+// Вставляет новый узел перед указанным.
 void insertBefore(DList* list, DNode* target, const std::string& value)
 {
     if (target == nullptr) return;
@@ -44,6 +49,7 @@ void insertBefore(DList* list, DNode* target, const std::string& value)
     target->prev = node;
 }
 
+// Удаляет узел и обновляет соседние связи.
 void deleteNode(DList* list, DNode* node)
 {
     if (node == nullptr) return;
@@ -54,9 +60,12 @@ void deleteNode(DList* list, DNode* node)
     delete node;
 }
 
+// Удаляет первый узел списка.
 void popFront(DList* list) { deleteNode(list, list->head); }
+// Удаляет последний узел списка.
 void popBack(DList* list) { deleteNode(list, list->tail); }
 
+// Удаляет узел после указанного.
 bool deleteAfter(DList* list, DNode* target)
 {
     if (target == nullptr || target->next == nullptr) return false;
@@ -64,6 +73,7 @@ bool deleteAfter(DList* list, DNode* target)
     return true;
 }
 
+// Удаляет узел перед указанным.
 bool deleteBefore(DList* list, DNode* target)
 {
     if (target == nullptr || target->prev == nullptr) return false;
@@ -71,6 +81,7 @@ bool deleteBefore(DList* list, DNode* target)
     return true;
 }
 
+// Удаляет первый узел с заданным значением.
 bool deleteValue(DList* list, const std::string& value)
 {
     DNode* node = findValue(list, value);
@@ -79,11 +90,13 @@ bool deleteValue(DList* list, const std::string& value)
     return true;
 }
 
+// Освобождает все узлы двусвязного списка.
 void freeList(DList* list)
 {
     while (list->head != nullptr) popFront(list);
 }
 
+// Выполняет команду двусвязного списка и сохраняет результат.
 void handleDlist(Command command, Database& db, const std::string& name, std::stringstream& ss)
 {
     if (!checkType(db, name, "dlist")) return;
