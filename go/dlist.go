@@ -13,6 +13,7 @@ type DList struct {
     tail *DNode
 }
 
+// Добавляет узел в начало списка.
 func (list *DList) pushFront(value string) {
     node := &DNode{value: value, next: list.head}
     if list.head != nil {
@@ -23,6 +24,7 @@ func (list *DList) pushFront(value string) {
     list.head = node
 }
 
+// Добавляет узел в конец списка.
 func (list *DList) pushBack(value string) {
     node := &DNode{value: value, prev: list.tail}
     if list.tail != nil {
@@ -33,6 +35,7 @@ func (list *DList) pushBack(value string) {
     list.tail = node
 }
 
+// Находит узел по значению.
 func (list *DList) find(value string) *DNode {
     for current := list.head; current != nil; current = current.next {
         if current.value == value {
@@ -42,6 +45,7 @@ func (list *DList) find(value string) *DNode {
     return nil
 }
 
+// Вставляет узел после указанного.
 func (list *DList) pushAfter(target *DNode, value string) {
     if target == nil {
         return
@@ -55,6 +59,7 @@ func (list *DList) pushAfter(target *DNode, value string) {
     target.next = node
 }
 
+// Вставляет узел перед указанным.
 func (list *DList) pushBefore(target *DNode, value string) {
     if target == nil {
         return
@@ -66,6 +71,7 @@ func (list *DList) pushBefore(target *DNode, value string) {
     list.pushAfter(target.prev, value)
 }
 
+// Удаляет узел и обновляет связи.
 func (list *DList) deleteNode(node *DNode) {
     if node == nil {
         return
@@ -82,9 +88,12 @@ func (list *DList) deleteNode(node *DNode) {
     }
 }
 
+// Удаляет первый узел списка.
 func (list *DList) popFront() { list.deleteNode(list.head) }
+// Удаляет последний узел списка.
 func (list *DList) popBack() { list.deleteNode(list.tail) }
 
+// Удаляет узел после указанного.
 func (list *DList) deleteAfter(target *DNode) bool {
     if target == nil || target.next == nil {
         return false
@@ -93,6 +102,7 @@ func (list *DList) deleteAfter(target *DNode) bool {
     return true
 }
 
+// Удаляет узел перед указанным.
 func (list *DList) deleteBefore(target *DNode) bool {
     if target == nil || target.prev == nil {
         return false
@@ -101,6 +111,7 @@ func (list *DList) deleteBefore(target *DNode) bool {
     return true
 }
 
+// Удаляет узел по значению.
 func (list *DList) deleteValue(value string) bool {
     node := list.find(value)
     if node == nil {
@@ -110,6 +121,7 @@ func (list *DList) deleteValue(value string) bool {
     return true
 }
 
+// Возвращает элементы списка по порядку.
 func (list *DList) items() []string {
     items := []string{}
     for current := list.head; current != nil; current = current.next {
@@ -118,6 +130,7 @@ func (list *DList) items() []string {
     return items
 }
 
+// Выполняет команду двусвязного списка.
 func handleDlist(command string, db Database, name string, args []string) {
     if !checkType(db, name, "dlist") {
         return
