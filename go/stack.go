@@ -11,10 +11,12 @@ type Stack struct {
     head *SNode
 }
 
+// Добавляет элемент на вершину стека.
 func (stack *Stack) push(value string) {
     stack.head = &SNode{value: value, next: stack.head}
 }
 
+// Извлекает элемент с вершины стека.
 func (stack *Stack) pop() (string, bool) {
     if stack.head == nil {
         return "", false
@@ -24,6 +26,7 @@ func (stack *Stack) pop() (string, bool) {
     return value, true
 }
 
+// Возвращает элементы стека от основания к вершине.
 func (stack *Stack) items() []string {
     items := []string{}
     for current := stack.head; current != nil; current = current.next {
@@ -35,6 +38,7 @@ func (stack *Stack) items() []string {
     return items
 }
 
+// Выполняет команду стека.
 func handleStack(command string, db Database, name string, args []string) {
     if !checkType(db, name, "stack") {
         return
